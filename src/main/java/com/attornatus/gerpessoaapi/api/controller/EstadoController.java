@@ -1,5 +1,7 @@
 package com.attornatus.gerpessoaapi.api.controller;
 
+import com.attornatus.gerpessoaapi.api.assembler.EstadoModelAssembler;
+import com.attornatus.gerpessoaapi.api.model.EstadoModel;
 import com.attornatus.gerpessoaapi.domain.model.Estado;
 import com.attornatus.gerpessoaapi.domain.repository.EstadoRepository;
 import com.attornatus.gerpessoaapi.domain.service.CadastroEstadoService;
@@ -21,14 +23,17 @@ public class EstadoController {
     @Autowired
     private CadastroEstadoService cadastroEstado;
 
+    @Autowired
+    private EstadoModelAssembler estadoModelAssembler;
+
     @GetMapping
-    public List<Estado> listar() {
-        return estadoRepository.findAll();
+    public List<EstadoModel> listar() {
+        return estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
     }
 
     @GetMapping("/{estadoId}")
-    public Estado buscar(@PathVariable Long estadoId) {
-        return cadastroEstado.buscarOuFalhar(estadoId);
+    public EstadoModel buscar(@PathVariable Long estadoId) {
+        return estadoModelAssembler.toModel(cadastroEstado.buscarOuFalhar(estadoId));
     }
 
     @PostMapping

@@ -1,5 +1,7 @@
 package com.attornatus.gerpessoaapi.api.controller;
 
+import com.attornatus.gerpessoaapi.api.assembler.CidadeModelAssembler;
+import com.attornatus.gerpessoaapi.api.model.CidadeModel;
 import com.attornatus.gerpessoaapi.domain.exception.EstadoNaoEncontradoException;
 import com.attornatus.gerpessoaapi.domain.exception.NegocioException;
 import com.attornatus.gerpessoaapi.domain.model.Cidade;
@@ -23,14 +25,17 @@ public class CidadeController {
     @Autowired
     private CadastroCidadeService cadastroCidade;
 
+    @Autowired
+    private CidadeModelAssembler cidadeModelAssembler;
+
     @GetMapping
-    public List<Cidade> listar() {
-        return cidadeRepository.findAll();
+    public List<CidadeModel> listar() {
+        return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
     }
 
     @GetMapping("/{cidadeId}")
-    public Cidade buscar(@PathVariable Long cidadeId) {
-        return cadastroCidade.buscarOuFalhar(cidadeId);
+    public CidadeModel buscar(@PathVariable Long cidadeId) {
+        return cidadeModelAssembler.toModel(cadastroCidade.buscarOuFalhar(cidadeId));
     }
 
     @PostMapping

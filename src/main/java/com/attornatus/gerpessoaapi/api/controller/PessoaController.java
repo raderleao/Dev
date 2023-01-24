@@ -33,13 +33,14 @@ public class PessoaController {
     private PessoaModelAssembler pessoaModelAssembler;
 
     @GetMapping
-    public List<Pessoa> listar() {
-        return pessoaRepository.findAll();
+    public List<PessoaModel>
+    listar() {
+        return pessoaModelAssembler.toCollectionModel(pessoaRepository.findAll());
     }
 
     @GetMapping("/{pessoaId}")
-    public Pessoa buscar(@PathVariable Long pessoaId) {
-        return cadastroPessoa.buscarOuFalhar(pessoaId);
+    public PessoaModel buscar(@PathVariable Long pessoaId) {
+        return pessoaModelAssembler.toModel(cadastroPessoa.buscarOuFalhar(pessoaId));
     }
 
     @PostMapping
