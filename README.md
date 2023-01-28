@@ -29,7 +29,7 @@ Requisitos
 
 Nessa solução foram utilizadas as seguintes tecnologias:
 `#0969DA`
-* Java 19
+* Java 17
 * Spring Boot 3.0.2
 * JUnit 4.13
 * H2database 2.1
